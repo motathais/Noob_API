@@ -26,17 +26,68 @@ router.use("/", loginRouter);
  *           schema:
  *             type: object
  *             properties:
- *               nota:
- *                 type: integer
- *                 example: 5
- *               comentario:
- *                 type: string
- *                 example: "Serviço excelente!"
+ *               apelido:
+ *                 type: string  # <-- Corrigido: string minúsculo
+ *                 example: "maria"
+ *               senha:
+ *                 type: string  # <-- Corrigido: string minúsculo
+ *                 example: "senha@123"
  *     responses:
- *       201:
- *         description: Avaliação criada com sucesso!
- *
+ *       200:
+ *         description: Login bem sucedido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *                 mensagem:
+ *                   type: string
+ *                   example: "Login realizado com sucesso!"
+ *       400:
+ *         description: Apelido ou senha não informados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erro:
+ *                   type: string
+ *                   example: "Por favor, preencha as informações para login!"
+ *       401:
+ *         description: Senha inválida
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erro:
+ *                   type: string
+ *                   example: "Nome de usuário ou senha inválido!"
+ *       404:
+ *         description: Usuário não existe
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erro:
+ *                   type: string
+ *                   example: "Nome de usuário ou senha inválido!"  
+ *       500:
+ *         description: Erro no servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erro:
+ *                   type: string
+ *                   example: "Erro interno no servidor. Tente novamente mais tarde."
  */
+
 
 //---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -55,7 +106,7 @@ router.use("/", usuariosRouter);
  * /api/usuarios:
  *   get:
  *     summary: Retorna todos os usuários 
- *     description: Retorna os dados de todos os usuarios cadastrados.
+ *     description: Retorna os dados de todos os usuários cadastrados.
  *     tags:
  *       - Usuários
  *     responses:
