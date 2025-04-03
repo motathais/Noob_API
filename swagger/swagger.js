@@ -15,9 +15,23 @@ const options = {
         description: "Servidor local",
       },
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        }
+      }
+    },
+    security: [
+      {
+        bearerAuth: [] 
+      }
+    ]
   },
-  apis: ["./routes/router.js"],
-   // Caminho para os arquivos de rotas com a documentação
+
+  apis: ["./routes/router.js"], // Caminho para os arquivos de rotas com a documentação
 };
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -27,3 +41,4 @@ const setupSwagger = (app) => {
 };
 
 module.exports = setupSwagger;
+
