@@ -27,10 +27,10 @@ router.use("/", loginRouter);
  *             type: object
  *             properties:
  *               apelido:
- *                 type: string  # <-- Corrigido: string minúsculo
+ *                 type: string  
  *                 example: "maria"
  *               senha:
- *                 type: string  # <-- Corrigido: string minúsculo
+ *                 type: string  
  *                 example: "senha@123"
  *     responses:
  *       200:
