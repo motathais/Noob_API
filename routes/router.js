@@ -1,4 +1,43 @@
 const router = require("express").Router()
+
+//--------------------------------------------------------------------------------------------------------------------------------------
+
+// LOGIN 
+
+// Router:
+
+const loginRouter = require("./login");
+
+router.use("/", loginRouter);
+
+// Swagger:
+/**
+ * @swagger
+ * /api/login:
+ *   post:
+ *     summary: Autenticação do usuário
+ *     description: Valida as credenciais do usuário e retorna um token de autenticação para acesso aos endpoints protegidos.
+ *     tags:
+ *       - Login
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nota:
+ *                 type: integer
+ *                 example: 5
+ *               comentario:
+ *                 type: string
+ *                 example: "Serviço excelente!"
+ *     responses:
+ *       201:
+ *         description: Avaliação criada com sucesso!
+ *
+ */
+
 //---------------------------------------------------------------------------------------------------------------------------------------
 
 // USUARIOS:
@@ -15,8 +54,8 @@ router.use("/", usuariosRouter);
  * @swagger
  * /api/usuarios:
  *   get:
- *     summary: Retorna todas as avaliações
- *     description: Retorna os detalhes de todas as avaliações cadastradas.
+ *     summary: Retorna todos os usuários 
+ *     description: Retorna os dados de todos os usuarios cadastrados.
  *     tags:
  *       - Usuários
  *     responses:
@@ -40,8 +79,8 @@ router.use("/", usuariosRouter);
  *                     example: "Ótima experiência!"
  *
  *   post:
- *     summary: Adiciona uma nova avaliação
- *     description: Cria uma nova avaliação na API.
+ *     summary: Adiciona um novo usuário
+ *     description: Cria um novo usuário a partir dos dados enviados.
  *     tags:
  *       - Usuários
  *     requestBody:
@@ -67,8 +106,8 @@ router.use("/", usuariosRouter);
  * @swagger
  * /api/usuarios/{id}:
  *   get:
- *     summary: Retorna avaliação específica
- *     description: Retorna os detalhes de todas as avaliações cadastradas.
+ *     summary: Retorna um usuário específico
+ *     description: Retorna os dados de um usuário de ID específico
  *     tags:
  *       - Usuários
  *     responses:
@@ -92,8 +131,8 @@ router.use("/", usuariosRouter);
  *                     example: "Ótima experiência!"
  * 
  *   put:
- *     summary: Atualiza uma avaliação existente
- *     description: Modifica os dados de uma avaliação específica.
+ *     summary: Atualiza um usuário existente
+ *     description: Modifica os dados de um usuário de ID específico.
  *     tags:
  *       - Usuários
  *     parameters:
@@ -121,8 +160,8 @@ router.use("/", usuariosRouter);
  *         description: Avaliação atualizada com sucesso!
  *
  *   delete:
- *     summary: Remove uma avaliação
- *     description: Exclui uma avaliação pelo ID.
+ *     summary: Remove um usuário
+ *     description: Exclui um usuário pelo ID.
  *     tags:
  *       - Usuários
  *     parameters:
@@ -135,6 +174,40 @@ router.use("/", usuariosRouter);
  *     responses:
  *       200:
  *         description: Avaliação removida com sucesso!
+ */
+
+/**
+ * @swagger
+ * /api/usuarios/senha/{id}:
+ *   put:
+ *     summary: Atualiza a senha do usuário
+ *     description: Modifica a senha de um usuário de ID específico.
+ *     tags:
+ *       - Usuários
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: O ID da avaliação que será atualizada
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nota:
+ *                 type: integer
+ *                 example: 4
+ *               comentario:
+ *                 type: string
+ *                 example: "Atendimento bom, mas pode melhorar!"
+ *     responses:
+ *       200:
+ *         description: Avaliação atualizada com sucesso!
+ *
  */
 
 
@@ -152,12 +225,12 @@ router.use("/", jogosRouter);
 
 /**
  * @swagger
- * /api/avaliacoes:
+ * /api/jogos:
  *   get:
- *     summary: Retorna todas as avaliações
- *     description: Retorna os detalhes de todas as avaliações cadastradas.
+ *     summary: Retorna todas os jogos 
+ *     description: Retorna os dados de todos os jogos cadastrados.
  *     tags:
- *       - Avaliações
+ *       - Jogos
  *     responses:
  *       200:
  *         description: Sucesso!
@@ -179,10 +252,10 @@ router.use("/", jogosRouter);
  *                     example: "Ótima experiência!"
  *
  *   post:
- *     summary: Adiciona uma nova avaliação
- *     description: Cria uma nova avaliação na API.
+ *     summary: Adiciona um novo jogo
+ *     description: Cria um novo jogo a partir dos dados enviados.
  *     tags:
- *       - Avaliações
+ *       - Jogos
  *     requestBody:
  *       required: true
  *       content:
@@ -204,12 +277,12 @@ router.use("/", jogosRouter);
 
 /**
  * @swagger
- * /api/avaliacoes/{id}:
+ * /api/jogos/{id}:
  *   get:
- *     summary: Retorna avaliação específica
- *     description: Retorna os detalhes de todas as avaliações cadastradas.
+ *     summary: Retorna um jogo específico
+ *     description: Retorna os dados de um jogo de ID específico.
  *     tags:
- *       - Avaliações
+ *       - Jogos
  *     responses:
  *       200:
  *         description: Sucesso!
@@ -231,10 +304,10 @@ router.use("/", jogosRouter);
  *                     example: "Ótima experiência!"
  * 
  *   put:
- *     summary: Atualiza uma avaliação existente
- *     description: Modifica os dados de uma avaliação específica.
+ *     summary: Atualiza um jogo existente
+ *     description: Modifica os dados de um jogo de ID específico.
  *     tags:
- *       - Avaliações
+ *       - Jogos
  *     parameters:
  *       - in: path
  *         name: id
@@ -260,10 +333,10 @@ router.use("/", jogosRouter);
  *         description: Avaliação atualizada com sucesso!
  *
  *   delete:
- *     summary: Remove uma avaliação
- *     description: Exclui uma avaliação pelo ID.
+ *     summary: Remove um jogo
+ *     description: Exclui um jogo pelo ID.
  *     tags:
- *       - Avaliações
+ *       - Jogos
  *     parameters:
  *       - in: path
  *         name: id
@@ -279,7 +352,7 @@ router.use("/", jogosRouter);
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 
-// ATIVIDADES: 
+// PARTIDAS: 
 
 // Router:
 
@@ -291,12 +364,12 @@ router.use("/", partidasRouter);
 
 /**
  * @swagger
- * /api/avaliacoes:
+ * /api/partidas:
  *   get:
- *     summary: Retorna todas as avaliações
- *     description: Retorna os detalhes de todas as avaliações cadastradas.
+ *     summary: Retorna todas as partidas
+ *     description: Retorna os dados de todas as partidas cadastradas.
  *     tags:
- *       - Avaliações
+ *       - Partidas
  *     responses:
  *       200:
  *         description: Sucesso!
@@ -318,10 +391,10 @@ router.use("/", partidasRouter);
  *                     example: "Ótima experiência!"
  *
  *   post:
- *     summary: Adiciona uma nova avaliação
- *     description: Cria uma nova avaliação na API.
+ *     summary: Adiciona uma nova partida
+ *     description: Cria um nova partida a partir dos dados enviados.
  *     tags:
- *       - Avaliações
+ *       - Partidas
  *     requestBody:
  *       required: true
  *       content:
@@ -343,12 +416,12 @@ router.use("/", partidasRouter);
 
 /**
  * @swagger
- * /api/avaliacoes/{id}:
+ * /api/partidas/{id}:
  *   get:
- *     summary: Retorna avaliação específica
- *     description: Retorna os detalhes de todas as avaliações cadastradas.
+ *     summary: Retorna partida específica
+ *     description: Retorna os dados de uma partida de ID específico.
  *     tags:
- *       - Avaliações
+ *       - Partidas
  *     responses:
  *       200:
  *         description: Sucesso!
@@ -370,10 +443,10 @@ router.use("/", partidasRouter);
  *                     example: "Ótima experiência!"
  * 
  *   put:
- *     summary: Atualiza uma avaliação existente
- *     description: Modifica os dados de uma avaliação específica.
+ *     summary: Atualiza uma partida existente
+ *     description: Modifica os dados de uma partida de ID específico.
  *     tags:
- *       - Avaliações
+ *       - Partidas
  *     parameters:
  *       - in: path
  *         name: id
@@ -399,10 +472,10 @@ router.use("/", partidasRouter);
  *         description: Avaliação atualizada com sucesso!
  *
  *   delete:
- *     summary: Remove uma avaliação
- *     description: Exclui uma avaliação pelo ID.
+ *     summary: Remove uma partida
+ *     description: Exclui uma partida pelo ID.
  *     tags:
- *       - Avaliações
+ *       - Partidas
  *     parameters:
  *       - in: path
  *         name: id
@@ -430,12 +503,12 @@ router.use("/", denunciasRouter);
 
 /**
  * @swagger
- * /api/avaliacoes:
+ * /api/denuncias:
  *   get:
- *     summary: Retorna todas as avaliações
- *     description: Retorna os detalhes de todas as avaliações cadastradas.
+ *     summary: Retorna todas as denúncias
+ *     description: Retorna os dados de todas as denúncias cadastradas.
  *     tags:
- *       - Avaliações
+ *       - Denúncias
  *     responses:
  *       200:
  *         description: Sucesso!
@@ -457,10 +530,10 @@ router.use("/", denunciasRouter);
  *                     example: "Ótima experiência!"
  *
  *   post:
- *     summary: Adiciona uma nova avaliação
- *     description: Cria uma nova avaliação na API.
+ *     summary: Adiciona uma nova denúncia
+ *     description: Cria um nova denúncia a partir dos dados enviados.
  *     tags:
- *       - Avaliações
+ *       - Denúncias
  *     requestBody:
  *       required: true
  *       content:
@@ -482,12 +555,12 @@ router.use("/", denunciasRouter);
 
 /**
  * @swagger
- * /api/avaliacoes/{id}:
+ * /api/denuncias/{id}:
  *   get:
- *     summary: Retorna avaliação específica
- *     description: Retorna os detalhes de todas as avaliações cadastradas.
+ *     summary: Retorna uma denúncia específica
+ *     description: Retorna os dados de uma partida de ID específico.
  *     tags:
- *       - Avaliações
+ *       - Denúncias
  *     responses:
  *       200:
  *         description: Sucesso!
@@ -509,10 +582,10 @@ router.use("/", denunciasRouter);
  *                     example: "Ótima experiência!"
  * 
  *   put:
- *     summary: Atualiza uma avaliação existente
- *     description: Modifica os dados de uma avaliação específica.
+ *     summary: Atualiza uma denúncia existente
+ *     description: Modifica os dados de uma denúncia de ID específico.
  *     tags:
- *       - Avaliações
+ *       - Denúncias
  *     parameters:
  *       - in: path
  *         name: id
@@ -538,10 +611,10 @@ router.use("/", denunciasRouter);
  *         description: Avaliação atualizada com sucesso!
  *
  *   delete:
- *     summary: Remove uma avaliação
- *     description: Exclui uma avaliação pelo ID.
+ *     summary: Remove uma denúncia
+ *     description: Exclui uma denúncia pelo ID.
  *     tags:
- *       - Avaliações
+ *       - Denúncias
  *     parameters:
  *       - in: path
  *         name: id
@@ -572,7 +645,7 @@ router.use("/", avaliacoesRouter);
  * /api/avaliacoes:
  *   get:
  *     summary: Retorna todas as avaliações
- *     description: Retorna os detalhes de todas as avaliações cadastradas.
+ *     description: Retorna os dados de todas as avaliações cadastradas.
  *     tags:
  *       - Avaliações
  *     responses:
@@ -597,7 +670,7 @@ router.use("/", avaliacoesRouter);
  *
  *   post:
  *     summary: Adiciona uma nova avaliação
- *     description: Cria uma nova avaliação na API.
+ *     description: Cria uma nova avaliação a partir dos dados enviados.
  *     tags:
  *       - Avaliações
  *     requestBody:
@@ -623,8 +696,8 @@ router.use("/", avaliacoesRouter);
  * @swagger
  * /api/avaliacoes/{id}:
  *   get:
- *     summary: Retorna avaliação específica
- *     description: Retorna os detalhes de todas as avaliações cadastradas.
+ *     summary: Retorna uma avaliação específica
+ *     description: Retorna os dados de uma avaliação de ID específico.
  *     tags:
  *       - Avaliações
  *     responses:
@@ -649,7 +722,7 @@ router.use("/", avaliacoesRouter);
  * 
  *   put:
  *     summary: Atualiza uma avaliação existente
- *     description: Modifica os dados de uma avaliação específica.
+ *     description: Modifica os dados de uma avaliação de ID específico.
  *     tags:
  *       - Avaliações
  *     parameters:
@@ -692,145 +765,6 @@ router.use("/", avaliacoesRouter);
  *       200:
  *         description: Avaliação removida com sucesso!
  */
-
-//--------------------------------------------------------------------------------------------------------------------------------------
-
-// LOGIN 
-
-// Router:
-
-const loginRouter = require("./login");
-
-router.use("/", loginRouter);
-
-// Swagger:
-
-/**
- * @swagger
- * /api/avaliacoes:
- *   get:
- *     summary: Retorna todas as avaliações
- *     description: Retorna os detalhes de todas as avaliações cadastradas.
- *     tags:
- *       - Avaliações
- *     responses:
- *       200:
- *         description: Sucesso!
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "12345"
- *                   nota:
- *                     type: integer
- *                     example: 5
- *                   comentario:
- *                     type: string
- *                     example: "Ótima experiência!"
- *
- *   post:
- *     summary: Adiciona uma nova avaliação
- *     description: Cria uma nova avaliação na API.
- *     tags:
- *       - Avaliações
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               nota:
- *                 type: integer
- *                 example: 5
- *               comentario:
- *                 type: string
- *                 example: "Serviço excelente!"
- *     responses:
- *       201:
- *         description: Avaliação criada com sucesso!
- *
- */
-
-/**
- * @swagger
- * /api/avaliacoes/{id}:
- *   get:
- *     summary: Retorna avaliação específica
- *     description: Retorna os detalhes de todas as avaliações cadastradas.
- *     tags:
- *       - Avaliações
- *     responses:
- *       200:
- *         description: Sucesso!
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "12345"
- *                   nota:
- *                     type: integer
- *                     example: 5
- *                   comentario:
- *                     type: string
- *                     example: "Ótima experiência!"
- * 
- *   put:
- *     summary: Atualiza uma avaliação existente
- *     description: Modifica os dados de uma avaliação específica.
- *     tags:
- *       - Avaliações
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: O ID da avaliação que será atualizada
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               nota:
- *                 type: integer
- *                 example: 4
- *               comentario:
- *                 type: string
- *                 example: "Atendimento bom, mas pode melhorar!"
- *     responses:
- *       200:
- *         description: Avaliação atualizada com sucesso!
- *
- *   delete:
- *     summary: Remove uma avaliação
- *     description: Exclui uma avaliação pelo ID.
- *     tags:
- *       - Avaliações
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: O ID da avaliação que será removida
- *     responses:
- *       200:
- *         description: Avaliação removida com sucesso!
- */
-
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 
