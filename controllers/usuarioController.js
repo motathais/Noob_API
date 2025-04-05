@@ -65,7 +65,9 @@ const usuarioController = {
       // salvando o usuário
       await usuarios.save();
 
-      res.status(201).json({ usuarios, message: "Usuário criado com sucesso!" });
+      const { senha: _, ...usuarioSemSenha } = usuarios.toObject();
+
+      res.status(201).json({ usuarios: usuarioSemSenha, message: "Usuário criado com sucesso!" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Erro ao processar a requisição." });
@@ -74,29 +76,30 @@ const usuarioController = {
   // função para buscar todos os usuários da lista via GET
   getAll: async (req, res) => {
     try {
-      const usuarios = await Usuarios.find()
+      // Exclui o campo 'senha' de todos os usuários
+      const usuarios = await Usuarios.find({}, '-senha');
 
       res.json(usuarios);
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      res.status(500).json({ message: "Erro ao buscar usuários." });
     }
   },
   // função para buscar apenas um usuário passando o ID via GET
   get: async (req, res) => {
     try {
-      //id => URL == GET
-      const id = req.params.id
-      const usuario = await Usuarios.findById(id, '-senha');
+      const id = req.params.id;
+      const usuario = await Usuarios.findById(id, '-senha'); // Exclui a senha
 
       if (!usuario) {
-        res.status(404).json({ msg: "Usuario não encontrado" });
+        res.status(404).json({ msg: "Usuário não encontrado" });
         return;
       }
 
       res.json(usuario);
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      res.status(500).json({ message: "Erro ao buscar o usuário." });
     }
   },
   // função para deletar o usuário passando ID via DELETE
@@ -111,11 +114,13 @@ const usuarioController = {
         return;
       }
 
-      const deletedUsuario = await Usuarios.findByIdAndDelete(id);
+      const deletedUsuario = await Usuarios.findByIdAndDelete(id).select("-senha");
 
-      res
-        .status(200)
-        .json({ deletedUsuario, msg: "Usuário excluido com sucesso" });
+      res.status(200).json({
+        deletedUsuario,
+        msg: "Usuário excluído com sucesso"
+      });
+
 
     } catch (error) {
       console.log(error)
@@ -186,8 +191,9 @@ const usuarioController = {
         capa: capa_src || undefined  // Atualiza somente se houve nova capa
       };
 
-      // Atualizando o usuário
-      const updatedUsuario = await Usuarios.findByIdAndUpdate(id, usuario, { new: true });
+      // Atualizando o usuário   
+      const updatedUsuario = await Usuarios.findByIdAndUpdate(id, usuario).select("-senha")
+
 
       if (!updatedUsuario) {
         return res.status(404).json({ msg: "Usuário não encontrado." });

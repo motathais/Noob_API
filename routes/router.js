@@ -111,7 +111,7 @@ router.use("/", usuariosRouter);
  *       - Usuários
  *     responses:
  *       200:
- *         description: Sucesso!
+ *         description: Consulta realizada com sucesso
  *         content:
  *           application/json:
  *             schema:
@@ -122,12 +122,18 @@ router.use("/", usuariosRouter);
  *                   id:
  *                     type: string
  *                     example: "12345"
- *                   nota:
- *                     type: integer
- *                     example: 5
- *                   comentario:
+ *                   nome:
  *                     type: string
- *                     example: "Ótima experiência!"
+ *                     example: "maria"
+ *                   apelido:
+ *                     type: string
+ *                     example: "maria"
+ *                   nascimento:
+ *                     type: date
+ *                     example: "01/01/2001"
+ *                   email:
+ *                     type: string
+ *                     example: "maria@email.com"
  *
  *   post:
  *     summary: Adiciona um novo usuário

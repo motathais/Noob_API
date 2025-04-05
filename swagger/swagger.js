@@ -11,7 +11,8 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:8001", // Altere conforme necessário
+        //url: "https://noob-api-1.onrender.com", 
+        url: "http://localhost:8001",
         description: "Servidor local",
       },
     ],
@@ -26,12 +27,12 @@ const options = {
     },
     security: [
       {
-        bearerAuth: [] 
+        bearerAuth: []
       }
     ]
   },
 
-  apis: ["./routes/router.js"], // Caminho para os arquivos de rotas com a documentação
+  apis: ["./routes/router.js"],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
