@@ -45,7 +45,7 @@ router.use("/", loginRouter);
  *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
  *                 mensagem:
  *                   type: string
- *                   example: "Login realizado com sucesso!"
+ *                   example: "Usuário logado com sucesso!"
  *       400:
  *         description: Apelido ou senha não informados
  *         content:
@@ -109,6 +109,8 @@ router.use("/", usuariosRouter);
  *     description: Retorna os dados de todos os usuários cadastrados.
  *     tags:
  *       - Usuários
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Consulta realizada com sucesso
@@ -119,7 +121,7 @@ router.use("/", usuariosRouter);
  *               items:
  *                 type: object
  *                 properties:
- *                   id:
+ *                   _id:
  *                     type: string
  *                     example: "12345"
  *                   nome:
@@ -129,11 +131,17 @@ router.use("/", usuariosRouter);
  *                     type: string
  *                     example: "maria"
  *                   nascimento:
- *                     type: date
+ *                     type: string
  *                     example: "01/01/2001"
  *                   email:
  *                     type: string
  *                     example: "maria@email.com"
+ *                   foto: 
+ *                     type: string
+ *                     example: "https://res.cloudinary.com/abcde/image/upload/12345.jpg"
+ *                   capa: 
+ *                     type: string
+ *                     example: "https://res.cloudinary.com/abcde/image/upload/12345.jpg"        
  *
  *   post:
  *     summary: Adiciona um novo usuário
@@ -167,6 +175,8 @@ router.use("/", usuariosRouter);
  *     description: Retorna os dados de um usuário de ID específico
  *     tags:
  *       - Usuários
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Sucesso!
