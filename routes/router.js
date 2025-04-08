@@ -144,6 +144,101 @@ const router = require("express").Router()
  *         msg:
  *           type: string
  *           example: "Usuário excluído com sucesso"
+ * 
+ *     JogoRequest:
+ *       type: object
+ *       required:
+ *         - titulo
+ *         - ano
+ *         - idade
+ *         - designer
+ *         - artista
+ *         - editora
+ *         - digital
+ *         - categoria
+ *         - componentes
+ *         - descricao
+ *       properties:
+ *         titulo:
+ *           type: string
+ *           example: "Catan"
+ *         ano:
+ *           type: integer
+ *           example: 1995
+ *         idade:
+ *           type: string
+ *           example: "10+"
+ *         designer:
+ *           type: string
+ *           example: "Klaus Teuber"
+ *         artista:
+ *           type: string
+ *           example: "Michael Menzel"
+ *         editora:
+ *           type: string
+ *           example: "Devir"
+ *         digital:
+ *           type: boolean
+ *           example: false
+ *         categoria:
+ *           type: string
+ *           example: "Estratégia"
+ *         componentes:
+ *           type: string
+ *           example: "Tabuleiro, cartas, peças"
+ *         descricao:
+ *           type: string
+ *           example: "Jogo de construção de assentamentos e comércio."
+ *         idOriginal:
+ *           type: string
+ *           example: "6613f9bfb1246d27b072b8cd"
+ *         foto:
+ *           type: string
+ *           format: binary
+ *         capa:
+ *           type: string
+ *           format: binary
+ *     
+ *     JogoResponse:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         titulo:
+ *           type: string
+ *         ano:
+ *           type: integer
+ *         idade:
+ *           type: string
+ *         designer:
+ *           type: string
+ *         artista:
+ *           type: string
+ *         editora:
+ *           type: string
+ *         digital:
+ *           type: boolean
+ *         categoria:
+ *           type: string
+ *         componentes:
+ *           type: string
+ *         descricao:
+ *           type: string
+ *         idOriginal:
+ *           type: string
+ *         foto:
+ *           type: string
+ *         capa:
+ *           type: string
+ *         __v:
+ *           type: integer
+ *     
+ *     MessageResponse:
+ *       type: object
+ *       properties:
+ *         msg:
+ *           type: string
+ *           example: "Mensagem de resposta"
  */
 
 
@@ -309,145 +404,144 @@ router.use("/", usuariosRouter);
  */
 
 /**
- /**
- * @swagger
- * /api/usuarios/{id}:
- *   get:
- *     summary: Buscar um usuário pelo ID
- *     description: Retorna os dados de um usuário específico, com base no ID informado (exceto senha).
- *     tags:
- *       - Usuários
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: ID do usuário a ser consultado
- *         schema:
- *           type: string
- *           example: "6613f9bfb1246d27b072b8cd"
- *     responses:
- *       200:
- *         description: Usuário encontrado
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/UsuarioResponse'
- *       404:
- *         description: Usuário não encontrado
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       500:
- *         description: Erro ao buscar o usuário
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- * 
- *   put:
- *     summary: Atualiza os dados de um usuário
- *     description: Atualiza as informações do usuário como nome, nascimento, email, foto e capa. Campos não enviados permanecem inalterados.
- *     tags:
- *       - Usuários
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: ID do usuário a ser atualizado
- *         schema:
- *           type: string
- *           example: "6613f9bfb1246d27b072b8cd"
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               nome:
- *                 type: string
- *                 example: "Maria Clara Silva"
- *               nascimento:
- *                 type: string
- *                 format: date
- *                 example: "1990-05-15"
- *               email:
- *                 type: string
- *                 format: email
- *                 example: "novo@email.com"
- *               foto:
- *                 type: string
- *                 format: binary
- *               capa:
- *                 type: string
- *                 format: binary
- *     responses:
- *       200:
- *         description: Usuário atualizado com sucesso
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 updatedUsuario:
- *                   $ref: '#/components/schemas/UsuarioResponse'
- *                 msg:
- *                   type: string
- *                   example: "Usuário atualizado com sucesso!"
- *       404:
- *         description: Usuário não encontrado
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       500:
- *         description: Erro na atualização
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- * 
- *
- *   delete:
- *     summary: Deleta um usuário
- *     description: Remove permanentemente um usuário com base no ID fornecido.
- *     tags:
- *       - Usuários
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: ID do usuário a ser excluído
- *         schema:
- *           type: string
- *           example: "6613f9bfb1246d27b072b8cd"
- *     responses:
- *       200:
- *         description: Usuário excluído com sucesso
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 deletedUsuario:
- *                   $ref: '#/components/schemas/UsuarioResponse'
- *                 msg:
- *                   type: string
- *                   example: "Usuário excluído com sucesso"
- *       404:
- *         description: Usuário não encontrado
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       500:
- *         description: Erro no servidor
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- */
+* @swagger
+* /api/usuarios/{id}:
+*   get:
+*     summary: Buscar um usuário pelo ID
+*     description: Retorna os dados de um usuário específico, com base no ID informado (exceto senha).
+*     tags:
+*       - Usuários
+*     parameters:
+*       - name: id
+*         in: path
+*         required: true
+*         description: ID do usuário a ser consultado
+*         schema:
+*           type: string
+*           example: "6613f9bfb1246d27b072b8cd"
+*     responses:
+*       200:
+*         description: Usuário encontrado
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/UsuarioResponse'
+*       404:
+*         description: Usuário não encontrado
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/ErrorResponse'
+*       500:
+*         description: Erro ao buscar o usuário
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/ErrorResponse'
+* 
+*   put:
+*     summary: Atualiza os dados de um usuário
+*     description: Atualiza as informações do usuário como nome, nascimento, email, foto e capa. Campos não enviados permanecem inalterados.
+*     tags:
+*       - Usuários
+*     parameters:
+*       - name: id
+*         in: path
+*         required: true
+*         description: ID do usuário a ser atualizado
+*         schema:
+*           type: string
+*           example: "6613f9bfb1246d27b072b8cd"
+*     requestBody:
+*       required: true
+*       content:
+*         multipart/form-data:
+*           schema:
+*             type: object
+*             properties:
+*               nome:
+*                 type: string
+*                 example: "Maria Clara Silva"
+*               nascimento:
+*                 type: string
+*                 format: date
+*                 example: "1990-05-15"
+*               email:
+*                 type: string
+*                 format: email
+*                 example: "novo@email.com"
+*               foto:
+*                 type: string
+*                 format: binary
+*               capa:
+*                 type: string
+*                 format: binary
+*     responses:
+*       200:
+*         description: Usuário atualizado com sucesso
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 updatedUsuario:
+*                   $ref: '#/components/schemas/UsuarioResponse'
+*                 msg:
+*                   type: string
+*                   example: "Usuário atualizado com sucesso!"
+*       404:
+*         description: Usuário não encontrado
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/ErrorResponse'
+*       500:
+*         description: Erro na atualização
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/ErrorResponse'
+* 
+*
+*   delete:
+*     summary: Deleta um usuário
+*     description: Remove permanentemente um usuário com base no ID fornecido.
+*     tags:
+*       - Usuários
+*     parameters:
+*       - name: id
+*         in: path
+*         required: true
+*         description: ID do usuário a ser excluído
+*         schema:
+*           type: string
+*           example: "6613f9bfb1246d27b072b8cd"
+*     responses:
+*       200:
+*         description: Usuário excluído com sucesso
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 deletedUsuario:
+*                   $ref: '#/components/schemas/UsuarioResponse'
+*                 msg:
+*                   type: string
+*                   example: "Usuário excluído com sucesso"
+*       404:
+*         description: Usuário não encontrado
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/ErrorResponse'
+*       500:
+*         description: Erro no servidor
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/ErrorResponse'
+*/
 
 /**
  * @swagger
@@ -513,126 +607,153 @@ router.use("/", jogosRouter);
  * @swagger
  * /api/jogos:
  *   get:
- *     summary: Retorna todas os jogos 
- *     description: Retorna os dados de todos os jogos cadastrados.
- *     tags:
- *       - Jogos
+ *     summary: Retorna todos os jogos cadastrados
+ *     tags: [Jogos]
  *     responses:
  *       200:
- *         description: Sucesso!
+ *         description: Lista de jogos retornada com sucesso
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "12345"
- *                   nota:
- *                     type: integer
- *                     example: 5
- *                   comentario:
- *                     type: string
- *                     example: "Ótima experiência!"
+ *                 $ref: '#/components/schemas/JogoResponse'
+ *       500:
+ *         description: Erro ao buscar jogos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MessageResponse'
  *
  *   post:
- *     summary: Adiciona um novo jogo
- *     description: Cria um novo jogo a partir dos dados enviados.
- *     tags:
- *       - Jogos
+ *     summary: Cria um novo jogo
+ *     tags: [Jogos]
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             type: object
- *             properties:
- *               nota:
- *                 type: integer
- *                 example: 5
- *               comentario:
- *                 type: string
- *                 example: "Serviço excelente!"
+ *             $ref: '#/components/schemas/JogoRequest'
  *     responses:
  *       201:
- *         description: Avaliação criada com sucesso!
- *
+ *         description: Jogo criado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 jogos:
+ *                   $ref: '#/components/schemas/JogoResponse'
+ *                 msg:
+ *                   type: string
+ *                   example: "Jogo criado com sucesso!"
+ *       500:
+ *         description: Erro ao criar o jogo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MessageResponse'
+ * 
  */
 
 /**
  * @swagger
  * /api/jogos/{id}:
  *   get:
- *     summary: Retorna um jogo específico
- *     description: Retorna os dados de um jogo de ID específico.
- *     tags:
- *       - Jogos
+ *     summary: Retorna um jogo pelo ID
+ *     tags: [Jogos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do jogo
  *     responses:
  *       200:
- *         description: Sucesso!
+ *         description: Jogo encontrado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "12345"
- *                   nota:
- *                     type: integer
- *                     example: 5
- *                   comentario:
- *                     type: string
- *                     example: "Ótima experiência!"
+ *               $ref: '#/components/schemas/JogoResponse'
+ *       404:
+ *         description: Jogo não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MessageResponse'
  * 
  *   put:
- *     summary: Atualiza um jogo existente
- *     description: Modifica os dados de um jogo de ID específico.
- *     tags:
- *       - Jogos
+ *     summary: Atualiza os dados de um jogo
+ *     tags: [Jogos]
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
  *         schema:
  *           type: string
- *         description: O ID da avaliação que será atualizada
+ *         required: true
+ *         description: ID do jogo
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             type: object
- *             properties:
- *               nota:
- *                 type: integer
- *                 example: 4
- *               comentario:
- *                 type: string
- *                 example: "Atendimento bom, mas pode melhorar!"
+ *             $ref: '#/components/schemas/JogoRequest'
  *     responses:
  *       200:
- *         description: Avaliação atualizada com sucesso!
- *
+ *         description: Jogo atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 jogo:
+ *                   $ref: '#/components/schemas/JogoResponse'
+ *                 msg:
+ *                   type: string
+ *                   example: "Jogo atualizado com sucesso!"
+ *       404:
+ *         description: Jogo não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MessageResponse'
+ *       500:
+ *         description: Erro ao atualizar o jogo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MessageResponse'
+ * 
  *   delete:
- *     summary: Remove um jogo
- *     description: Exclui um jogo pelo ID.
- *     tags:
- *       - Jogos
+ *     summary: Deleta um jogo pelo ID
+ *     tags: [Jogos]
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
  *         schema:
  *           type: string
- *         description: O ID da avaliação que será removida
+ *         required: true
+ *         description: ID do jogo
  *     responses:
  *       200:
- *         description: Avaliação removida com sucesso!
+ *         description: Jogo deletado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 deletedJogo:
+ *                   $ref: '#/components/schemas/JogoResponse'
+ *                 msg:
+ *                   type: string
+ *                   example: "Jogo excluido com sucesso!"
+ *       404:
+ *         description: Jogo não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MessageResponse'
  */
 
 
