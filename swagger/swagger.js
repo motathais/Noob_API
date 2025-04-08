@@ -12,7 +12,7 @@ const options = {
     servers: [
       {
         url: "https://noob-api-1.onrender.com", 
-        description: "Servidor local",
+        description: "Servidor Swagger",
       },
     ],
     components: {
