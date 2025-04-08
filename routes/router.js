@@ -986,34 +986,9 @@ router.use("/", denunciasRouter);
 /**
  * @swagger
  * /api/denuncias:
- *   get:
- *     summary: Retorna todas as denúncias
- *     description: Retorna os dados de todas as denúncias cadastradas.
- *     tags:
- *       - Denúncias
- *     responses:
- *       200:
- *         description: Sucesso!
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "12345"
- *                   nota:
- *                     type: integer
- *                     example: 5
- *                   comentario:
- *                     type: string
- *                     example: "Ótima experiência!"
- *
  *   post:
- *     summary: Adiciona uma nova denúncia
- *     description: Cria um nova denúncia a partir dos dados enviados.
+ *     summary: Registra uma nova denúncia
+ *     description: Cria uma nova denúncia com base em um registro suspeito.
  *     tags:
  *       - Denúncias
  *     requestBody:
@@ -1023,58 +998,74 @@ router.use("/", denunciasRouter);
  *           schema:
  *             type: object
  *             properties:
- *               nota:
- *                 type: integer
- *                 example: 5
- *               comentario:
+ *               idRegistro:
  *                 type: string
- *                 example: "Serviço excelente!"
+ *                 example: "6613e688f5a9b030f024c123"
+ *               descricao:
+ *                 type: string
+ *                 example: "Informações falsas ou conteúdo inadequado."
  *     responses:
  *       201:
- *         description: Avaliação criada com sucesso!
+ *         description: Denúncia registrada com sucesso!
  *
- */
-
-/**
- * @swagger
+ *   get:
+ *     summary: Retorna todas as denúncias
+ *     description: Lista todas as denúncias registradas no sistema.
+ *     tags:
+ *       - Denúncias
+ *     responses:
+ *       200:
+ *         description: Lista de denúncias retornada com sucesso!
+ *
  * /api/denuncias/{id}:
  *   get:
  *     summary: Retorna uma denúncia específica
- *     description: Retorna os dados de uma partida de ID específico.
- *     tags:
- *       - Denúncias
- *     responses:
- *       200:
- *         description: Sucesso!
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "12345"
- *                   nota:
- *                     type: integer
- *                     example: 5
- *                   comentario:
- *                     type: string
- *                     example: "Ótima experiência!"
- * 
- *   put:
- *     summary: Atualiza uma denúncia existente
- *     description: Modifica os dados de uma denúncia de ID específico.
+ *     description: Busca os detalhes de uma denúncia com base no ID fornecido.
  *     tags:
  *       - Denúncias
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+ *         description: ID da denúncia
  *         schema:
  *           type: string
- *         description: O ID da avaliação que será atualizada
+ *     responses:
+ *       200:
+ *         description: Denúncia encontrada com sucesso!
+ *       404:
+ *         description: Denúncia não encontrada.
+ *
+ *   delete:
+ *     summary: Exclui uma denúncia
+ *     description: Remove uma denúncia do sistema com base no ID fornecido.
+ *     tags:
+ *       - Denúncias
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID da denúncia
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Denúncia excluída com sucesso!
+ *       404:
+ *         description: Denúncia não encontrada.
+ *
+ *   put:
+ *     summary: Atualiza uma denúncia existente
+ *     description: Modifica os dados de uma denúncia com base no ID fornecido.
+ *     tags:
+ *       - Denúncias
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID da denúncia
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -1082,31 +1073,17 @@ router.use("/", denunciasRouter);
  *           schema:
  *             type: object
  *             properties:
- *               nota:
- *                 type: integer
- *                 example: 4
- *               comentario:
+ *               idRegistro:
  *                 type: string
- *                 example: "Atendimento bom, mas pode melhorar!"
+ *                 example: "6613e688f5a9b030f024c123"
+ *               descricao:
+ *                 type: string
+ *                 example: "Atualização da denúncia anterior com mais detalhes."
  *     responses:
  *       200:
- *         description: Avaliação atualizada com sucesso!
- *
- *   delete:
- *     summary: Remove uma denúncia
- *     description: Exclui uma denúncia pelo ID.
- *     tags:
- *       - Denúncias
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: O ID da avaliação que será removida
- *     responses:
- *       200:
- *         description: Avaliação removida com sucesso!
+ *         description: Denúncia atualizada com sucesso!
+ *       404:
+ *         description: Denúncia não encontrada.
  */
 
 
