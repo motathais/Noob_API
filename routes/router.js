@@ -1124,87 +1124,10 @@ router.use("/", avaliacoesRouter);
 
 /**
  * @swagger
- * /api/avaliacoes:
- *   get:
- *     summary: Retorna todas as avaliações
- *     description: Retorna os dados de todas as avaliações cadastradas.
- *     tags:
- *       - Avaliações
- *     responses:
- *       200:
- *         description: Sucesso!
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "12345"
- *                   nota:
- *                     type: integer
- *                     example: 5
- *                   comentario:
- *                     type: string
- *                     example: "Ótima experiência!"
- *
- *   post:
- *     summary: Adiciona uma nova avaliação
- *     description: Cria uma nova avaliação a partir dos dados enviados.
- *     tags:
- *       - Avaliações
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               nota:
- *                 type: integer
- *                 example: 5
- *               comentario:
- *                 type: string
- *                 example: "Serviço excelente!"
- *     responses:
- *       201:
- *         description: Avaliação criada com sucesso!
- *
- */
-
-/**
- * @swagger
  * /api/avaliacoes/{id}:
  *   get:
  *     summary: Retorna uma avaliação específica
- *     description: Retorna os dados de uma avaliação de ID específico.
- *     tags:
- *       - Avaliações
- *     responses:
- *       200:
- *         description: Sucesso!
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "12345"
- *                   nota:
- *                     type: integer
- *                     example: 5
- *                   comentario:
- *                     type: string
- *                     example: "Ótima experiência!"
- * 
- *   put:
- *     summary: Atualiza uma avaliação existente
- *     description: Modifica os dados de uma avaliação de ID específico.
+ *     description: Busca uma avaliação pelo ID fornecido.
  *     tags:
  *       - Avaliações
  *     parameters:
@@ -1213,27 +1136,74 @@ router.use("/", avaliacoesRouter);
  *         required: true
  *         schema:
  *           type: string
- *         description: O ID da avaliação que será atualizada
+ *         description: ID da avaliação
+ *     responses:
+ *       200:
+ *         description: Avaliação encontrada
+ *       404:
+ *         description: Avaliação não encontrada
+ *       500:
+ *         description: Erro ao buscar avaliação
+ *
+ *   put:
+ *     summary: Atualiza uma avaliação
+ *     description: Atualiza os dados de uma avaliação existente.
+ *     tags:
+ *       - Avaliações
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID da avaliação
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - usuario
+ *               - jogo
+ *               - beleza
+ *               - divertimento
+ *               - duracao
+ *               - preco
+ *               - armazenamento
  *             properties:
- *               nota:
- *                 type: integer
- *                 example: 4
- *               comentario:
+ *               usuario:
  *                 type: string
- *                 example: "Atendimento bom, mas pode melhorar!"
+ *                 example: "6613f1a7bcf8a4f2f6dd1523"
+ *               jogo:
+ *                 type: string
+ *                 example: "6613f1a7bcf8a4f2f6dd1524"
+ *               beleza:
+ *                 type: number
+ *                 example: 4
+ *               divertimento:
+ *                 type: number
+ *                 example: 5
+ *               duracao:
+ *                 type: number
+ *                 example: 3
+ *               preco:
+ *                 type: number
+ *                 example: 4
+ *               armazenamento:
+ *                 type: number
+ *                 example: 3
  *     responses:
  *       200:
- *         description: Avaliação atualizada com sucesso!
+ *         description: Avaliação atualizada com sucesso
+ *       404:
+ *         description: Avaliação não encontrada
+ *       500:
+ *         description: Erro ao atualizar avaliação
  *
  *   delete:
  *     summary: Remove uma avaliação
- *     description: Exclui uma avaliação pelo ID.
+ *     description: Deleta uma avaliação existente pelo ID.
  *     tags:
  *       - Avaliações
  *     parameters:
@@ -1242,10 +1212,14 @@ router.use("/", avaliacoesRouter);
  *         required: true
  *         schema:
  *           type: string
- *         description: O ID da avaliação que será removida
+ *         description: ID da avaliação
  *     responses:
  *       200:
- *         description: Avaliação removida com sucesso!
+ *         description: Avaliação excluída com sucesso
+ *       404:
+ *         description: Avaliação não encontrada
+ *       500:
+ *         description: Erro ao deletar avaliação
  */
 
 //--------------------------------------------------------------------------------------------------------------------------------------
