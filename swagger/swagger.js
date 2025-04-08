@@ -11,8 +11,7 @@ const options = {
     },
     servers: [
       {
-        //url: "https://noob-api-1.onrender.com", 
-        url: "http://localhost:8001",
+        url: "https://noob-api-1.onrender.com", 
         description: "Servidor local",
       },
     ],
