@@ -1,5 +1,152 @@
 const router = require("express").Router()
 
+
+//-------------------------------------------------------------------------------------------------------------------------------------
+
+//Componentes
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     LoginRequest:
+ *       type: object
+ *       required:
+ *         - apelido
+ *         - senha
+ *       properties:
+ *         apelido:
+ *           type: string
+ *           example: "maria"
+ *         senha:
+ *           type: string
+ *           example: "senha@123"
+ *
+ *     LoginSuccessResponse:
+ *       type: object
+ *       properties:
+ *         token:
+ *           type: string
+ *           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *         usuario:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: string
+ *               example: "6613f9bfb1246d27b072b8cd"
+ *         msg:
+ *           type: string
+ *           example: "Usuário logado com sucesso!"
+ *
+ *     ErrorResponse:
+ *       type: object
+ *       properties:
+ *         msg:
+ *           type: string
+ *           example: "Algo deu errado!"
+ * 
+ *     UsuarioBase:
+ *       type: object
+ *       properties:
+ *         nome:
+ *           type: string
+ *           example: "Maria Clara"
+ *         apelido:
+ *           type: string
+ *           example: "maria123"
+ *         nascimento:
+ *           type: string
+ *           format: date
+ *           example: "1990-05-15"
+ *         email:
+ *           type: string
+ *           format: email
+ *           example: "maria@email.com"
+ *         nivel:
+ *           type: integer
+ *           example: 1
+ *         foto:
+ *           type: string
+ *           format: uri
+ *           example: "https://res.cloudinary.com/.../foto.jpg"
+ *         capa:
+ *           type: string
+ *           format: uri
+ *           example: "https://res.cloudinary.com/.../capa.jpg"
+ *
+ *     UsuarioResponse:
+ *       allOf:
+ *         - $ref: '#/components/schemas/UsuarioBase'
+ *         - type: object
+ *           properties:
+ *             _id:
+ *               type: string
+ *               example: "6613f9bfb1246d27b072b8cd"
+ *
+ *     UsuarioCreateRequest:
+ *       type: object
+ *       required:
+ *         - nome
+ *         - apelido
+ *         - nascimento
+ *         - email
+ *         - senha
+ *       properties:
+ *         nome:
+ *           type: string
+ *         apelido:
+ *           type: string
+ *         nascimento:
+ *           type: string
+ *           format: date
+ *         email:
+ *           type: string
+ *           format: email
+ *         senha:
+ *           type: string
+ *         nivel:
+ *           type: integer
+ *           example: 1
+ *       description: Enviar `foto` e `capa` como arquivos `multipart/form-data` separados.
+ *
+ *     UsuarioUpdateRequest:
+ *       type: object
+ *       properties:
+ *         nome:
+ *           type: string
+ *         nascimento:
+ *           type: string
+ *           format: date
+ *         email:
+ *           type: string
+ *           format: email
+ *       description: Enviar `foto` e `capa` como arquivos `multipart/form-data` separados.
+ *
+ *     SenhaUpdateRequest:
+ *       type: object
+ *       required:
+ *         - senha
+ *       properties:
+ *         senha:
+ *           type: string
+ *           example: "novaSenha@123"
+ *
+ *     UsuarioListResponse:
+ *       type: array
+ *       items:
+ *         $ref: '#/components/schemas/UsuarioResponse'
+ *
+ *     UsuarioDeletedResponse:
+ *       type: object
+ *       properties:
+ *         deletedUsuario:
+ *           $ref: '#/components/schemas/UsuarioResponse'
+ *         msg:
+ *           type: string
+ *           example: "Usuário excluído com sucesso"
+ */
+
+
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 // LOGIN 
@@ -24,68 +171,38 @@ router.use("/", loginRouter);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               apelido:
- *                 type: string  
- *                 example: "maria"
- *               senha:
- *                 type: string  
- *                 example: "senha@123"
+ *             $ref: '#/components/schemas/LoginRequest'
  *     responses:
  *       200:
  *         description: Login bem sucedido
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
- *                 mensagem:
- *                   type: string
- *                   example: "Usuário logado com sucesso!"
+ *               $ref: '#/components/schemas/LoginSuccessResponse'
  *       400:
  *         description: Apelido ou senha não informados
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 erro:
- *                   type: string
- *                   example: "Por favor, preencha as informações para login!"
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       401:
  *         description: Senha inválida
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 erro:
- *                   type: string
- *                   example: "Nome de usuário ou senha inválido!"
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       404:
  *         description: Usuário não existe
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 erro:
- *                   type: string
- *                   example: "Nome de usuário ou senha inválido!"  
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       500:
  *         description: Erro no servidor
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 erro:
- *                   type: string
- *                   example: "Erro interno no servidor. Tente novamente mais tarde."
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 
 
@@ -105,176 +222,278 @@ router.use("/", usuariosRouter);
  * @swagger
  * /api/usuarios:
  *   get:
- *     summary: Retorna todos os usuários 
- *     description: Retorna os dados de todos os usuários cadastrados.
+ *     summary: Lista todos os usuários cadastrados
+ *     description: Retorna uma lista com todos os usuários cadastrados (exceto senhas).
  *     tags:
  *       - Usuários
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Consulta realizada com sucesso
+ *         description: Lista de usuários
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   _id:
- *                     type: string
- *                     example: "12345"
- *                   nome:
- *                     type: string
- *                     example: "maria"
- *                   apelido:
- *                     type: string
- *                     example: "maria"
- *                   nascimento:
- *                     type: string
- *                     example: "01/01/2001"
- *                   email:
- *                     type: string
- *                     example: "maria@email.com"
- *                   foto: 
- *                     type: string
- *                     example: "https://res.cloudinary.com/abcde/image/upload/12345.jpg"
- *                   capa: 
- *                     type: string
- *                     example: "https://res.cloudinary.com/abcde/image/upload/12345.jpg"        
- *
+ *               $ref: '#/components/schemas/UsuarioListResponse'
+ *       500:
+ *         description: Erro ao buscar usuários
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ * 
  *   post:
- *     summary: Adiciona um novo usuário
- *     description: Cria um novo usuário a partir dos dados enviados.
+ *     summary: Criação de um novo usuário
+ *     description: Cria um novo usuário com dados pessoais, senha e upload de imagem de perfil e capa.
  *     tags:
  *       - Usuários
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
+ *             required:
+ *               - nome
+ *               - apelido
+ *               - nascimento
+ *               - email
+ *               - senha
  *             properties:
- *               nota:
- *                 type: integer
- *                 example: 5
- *               comentario:
+ *               nome:
  *                 type: string
- *                 example: "Serviço excelente!"
+ *                 example: "Maria Clara"
+ *               apelido:
+ *                 type: string
+ *                 example: "maria123"
+ *               nascimento:
+ *                 type: string
+ *                 format: date
+ *                 example: "1990-05-15"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "maria@email.com"
+ *               senha:
+ *                 type: string
+ *                 example: "senha@123"
+ *               foto:
+ *                 type: string
+ *                 format: binary
+ *               capa:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       201:
- *         description: Avaliação criada com sucesso!
- *
+ *         description: Usuário criado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 usuarios:
+ *                   $ref: '#/components/schemas/UsuarioResponse'
+ *                 message:
+ *                   type: string
+ *                   example: "Usuário criado com sucesso!"
+ *       401:
+ *         description: Email ou apelido já está em uso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Erro no servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 
 /**
+ /**
  * @swagger
  * /api/usuarios/{id}:
  *   get:
- *     summary: Retorna um usuário específico
- *     description: Retorna os dados de um usuário de ID específico
+ *     summary: Buscar um usuário pelo ID
+ *     description: Retorna os dados de um usuário específico, com base no ID informado (exceto senha).
  *     tags:
  *       - Usuários
- *     security:
- *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID do usuário a ser consultado
+ *         schema:
+ *           type: string
+ *           example: "6613f9bfb1246d27b072b8cd"
  *     responses:
  *       200:
- *         description: Sucesso!
+ *         description: Usuário encontrado
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "12345"
- *                   nota:
- *                     type: integer
- *                     example: 5
- *                   comentario:
- *                     type: string
- *                     example: "Ótima experiência!"
+ *               $ref: '#/components/schemas/UsuarioResponse'
+ *       404:
+ *         description: Usuário não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Erro ao buscar o usuário
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  * 
  *   put:
- *     summary: Atualiza um usuário existente
- *     description: Modifica os dados de um usuário de ID específico.
+ *     summary: Atualiza os dados de um usuário
+ *     description: Atualiza as informações do usuário como nome, nascimento, email, foto e capa. Campos não enviados permanecem inalterados.
  *     tags:
  *       - Usuários
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
+ *         description: ID do usuário a ser atualizado
  *         schema:
  *           type: string
- *         description: O ID da avaliação que será atualizada
+ *           example: "6613f9bfb1246d27b072b8cd"
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
- *               nota:
- *                 type: integer
- *                 example: 4
- *               comentario:
+ *               nome:
  *                 type: string
- *                 example: "Atendimento bom, mas pode melhorar!"
+ *                 example: "Maria Clara Silva"
+ *               nascimento:
+ *                 type: string
+ *                 format: date
+ *                 example: "1990-05-15"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "novo@email.com"
+ *               foto:
+ *                 type: string
+ *                 format: binary
+ *               capa:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       200:
- *         description: Avaliação atualizada com sucesso!
+ *         description: Usuário atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 updatedUsuario:
+ *                   $ref: '#/components/schemas/UsuarioResponse'
+ *                 msg:
+ *                   type: string
+ *                   example: "Usuário atualizado com sucesso!"
+ *       404:
+ *         description: Usuário não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Erro na atualização
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ * 
  *
  *   delete:
- *     summary: Remove um usuário
- *     description: Exclui um usuário pelo ID.
+ *     summary: Deleta um usuário
+ *     description: Remove permanentemente um usuário com base no ID fornecido.
  *     tags:
  *       - Usuários
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
+ *         description: ID do usuário a ser excluído
  *         schema:
  *           type: string
- *         description: O ID da avaliação que será removida
+ *           example: "6613f9bfb1246d27b072b8cd"
  *     responses:
  *       200:
- *         description: Avaliação removida com sucesso!
+ *         description: Usuário excluído com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 deletedUsuario:
+ *                   $ref: '#/components/schemas/UsuarioResponse'
+ *                 msg:
+ *                   type: string
+ *                   example: "Usuário excluído com sucesso"
+ *       404:
+ *         description: Usuário não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Erro no servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 
 /**
  * @swagger
  * /api/usuarios/senha/{id}:
  *   put:
- *     summary: Atualiza a senha do usuário
- *     description: Modifica a senha de um usuário de ID específico.
+ *     summary: Atualiza a senha de um usuário
+ *     description: Atualiza apenas a senha do usuário com base no ID informado.
  *     tags:
  *       - Usuários
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
+ *         description: ID do usuário cuja senha será atualizada
  *         schema:
  *           type: string
- *         description: O ID da avaliação que será atualizada
+ *           example: "6613f9bfb1246d27b072b8cd"
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - senha
  *             properties:
- *               nota:
- *                 type: integer
- *                 example: 4
- *               comentario:
+ *               senha:
  *                 type: string
- *                 example: "Atendimento bom, mas pode melhorar!"
+ *                 example: "novaSenha@456"
  *     responses:
  *       200:
- *         description: Avaliação atualizada com sucesso!
- *
+ *         description: Senha atualizada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: "Senha atualizada com sucesso!"
+ *       404:
+ *         description: Usuário não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 
 
