@@ -1101,6 +1101,68 @@ router.use("/", avaliacoesRouter);
 
 /**
  * @swagger
+ * /api/avaliacoes:
+ *   post:
+ *     summary: Adiciona uma nova avaliação
+ *     description: Cria uma nova avaliação a partir dos dados enviados.
+ *     tags:
+ *       - Avaliações
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - usuario
+ *               - jogo
+ *               - beleza
+ *               - divertimento
+ *               - duracao
+ *               - preco
+ *               - armazenamento
+ *             properties:
+ *               usuario:
+ *                 type: string
+ *                 example: "6613f1a7bcf8a4f2f6dd1523"
+ *               jogo:
+ *                 type: string
+ *                 example: "6613f1a7bcf8a4f2f6dd1524"
+ *               beleza:
+ *                 type: number
+ *                 example: 4
+ *               divertimento:
+ *                 type: number
+ *                 example: 5
+ *               duracao:
+ *                 type: number
+ *                 example: 3
+ *               preco:
+ *                 type: number
+ *                 example: 4
+ *               armazenamento:
+ *                 type: number
+ *                 example: 3
+ *     responses:
+ *       201:
+ *         description: Avaliação registrada com sucesso!
+ *       500:
+ *         description: Erro ao criar avaliação
+ *
+ *   get:
+ *     summary: Lista todas as avaliações
+ *     description: Retorna todas as avaliações cadastradas.
+ *     tags:
+ *       - Avaliações
+ *     responses:
+ *       200:
+ *         description: Lista de avaliações retornada com sucesso
+ *       500:
+ *         description: Erro ao buscar avaliações
+ */
+
+/**
+ * @swagger
  * /api/avaliacoes/{id}:
  *   get:
  *     summary: Retorna uma avaliação específica
