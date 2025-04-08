@@ -772,53 +772,66 @@ router.use("/", partidasRouter);
 /**
  * @swagger
  * /api/partidas:
- *   get:
- *     summary: Retorna todas as partidas
- *     description: Retorna os dados de todas as partidas cadastradas.
- *     tags:
- *       - Partidas
- *     responses:
- *       200:
- *         description: Sucesso!
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "12345"
- *                   nota:
- *                     type: integer
- *                     example: 5
- *                   comentario:
- *                     type: string
- *                     example: "Ótima experiência!"
- *
  *   post:
- *     summary: Adiciona uma nova partida
- *     description: Cria um nova partida a partir dos dados enviados.
- *     tags:
- *       - Partidas
+ *     summary: Cria uma nova partida
+ *     tags: [Partidas]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - usuarios
+ *               - jogo
+ *               - explicacao
+ *               - inicio
+ *               - registrador
  *             properties:
- *               nota:
- *                 type: integer
- *                 example: 5
- *               comentario:
+ *               usuarios:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               jogo:
  *                 type: string
- *                 example: "Serviço excelente!"
+ *               explicacao:
+ *                 type: string
+ *               inicio:
+ *                 type: string
+ *                 format: date-time
+ *               registrador:
+ *                 type: string
  *     responses:
  *       201:
- *         description: Avaliação criada com sucesso!
+ *         description: Partida registrada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 response:
+ *                   $ref: '#/components/schemas/Partida'
+ *                 msg:
+ *                   type: string
+ *                   example: "Partida registrada com sucesso!"
+ *       500:
+ *         description: Erro interno
  *
+ *   get:
+ *     summary: Retorna todas as partidas
+ *     tags: [Partidas]
+ *     responses:
+ *       200:
+ *         description: Lista de partidas retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Partida'
+ *       500:
+ *         description: Erro interno
+ * 
  */
 
 /**
@@ -850,17 +863,15 @@ router.use("/", partidasRouter);
  *                     example: "Ótima experiência!"
  * 
  *   put:
- *     summary: Atualiza uma partida existente
- *     description: Modifica os dados de uma partida de ID específico.
- *     tags:
- *       - Partidas
+ *     summary: Atualiza os dados de uma partida (fim, vencedor e pontuação)
+ *     tags: [Partidas]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: O ID da avaliação que será atualizada
+ *         description: ID da partida
  *     requestBody:
  *       required: true
  *       content:
@@ -868,33 +879,97 @@ router.use("/", partidasRouter);
  *           schema:
  *             type: object
  *             properties:
- *               nota:
- *                 type: integer
- *                 example: 4
- *               comentario:
+ *               fim:
  *                 type: string
- *                 example: "Atendimento bom, mas pode melhorar!"
+ *                 format: date-time
+ *               vencedor:
+ *                 type: string
+ *               pontuacao:
+ *                 type: object
+ *                 additionalProperties:
+ *                   type: number
  *     responses:
  *       200:
- *         description: Avaliação atualizada com sucesso!
+ *         description: Partida atualizada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 partidaAtualizada:
+ *                   $ref: '#/components/schemas/Partida'
+ *                 msg:
+ *                   type: string
+ *                   example: "Partida atualizada com sucesso!"
+ *       400:
+ *         description: Data de fim inválida
+ *       404:
+ *         description: Partida não encontrada
+ *       500:
+ *         description: Erro ao atualizar
  *
  *   delete:
- *     summary: Remove uma partida
- *     description: Exclui uma partida pelo ID.
- *     tags:
- *       - Partidas
+ *     summary: Exclui uma partida
+ *     tags: [Partidas]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: O ID da avaliação que será removida
+ *         description: ID da partida
  *     responses:
  *       200:
- *         description: Avaliação removida com sucesso!
+ *         description: Partida excluída com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 deletedPartida:
+ *                   $ref: '#/components/schemas/Partida'
+ *                 msg:
+ *                   type: string
+ *                   example: "Partida excluida com sucesso!"
+ *       404:
+ *         description: Partida não encontrada
  */
 
+/**
+ * @swagger
+ * /api/partidas/fitro:
+ *   get:
+ *     summary: Filtra partidas por registrador e status de fim
+ *     tags: [Partidas]
+ *     parameters:
+ *       - in: query
+ *         name: registrador
+ *         schema:
+ *           type: string
+ *         description: ID do usuário registrador
+ *       - in: query
+ *         name: fim
+ *         schema:
+ *           type: string
+ *         description: Valor do campo "fim" (use "null" para buscar partidas em andamento)
+ *     responses:
+ *       200:
+ *         description: Lista de partidas filtradas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Partida'
+ *       404:
+ *         description: Nenhuma partida encontrada com os critérios
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MessageResponse'
+ *       500:
+ *         description: Erro ao buscar partidas
+ */
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 
