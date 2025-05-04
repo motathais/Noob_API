@@ -3,6 +3,9 @@ const mongoose = require("mongoose")
 require("dotenv").config()
 
 async function main() {
+
+    if (process.env.NODE_ENV === 'test') return;
+
     try {
 
         mongoose.set("strictQuery", true);
