@@ -590,6 +590,61 @@ router.use("/", usuariosRouter);
  *               $ref: '#/components/schemas/ErrorResponse'
  */
 
+/**
+ * @swagger
+ * /api/usuarios/preferencias/{id}:
+ *   put:
+ *     summary: Atualiza as preferências visuais do usuário
+ *     description: Atualiza as preferências visuais (opção de fonte, tamanho da fonte e tema) do usuário com base no ID informado.
+ *     tags:
+ *       - Usuários
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID do usuário cujas preferências serão atualizadas
+ *         schema:
+ *           type: string
+ *           example: "6613f9bfb1246d27b072b8cd"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - fontOption
+ *               - fontSize
+ *               - theme
+ *             properties:
+ *               fontOption:
+ *                 type: string
+ *                 example: "Arial"
+ *               fontSize:
+ *                 type: string
+ *                 example: "1"
+ *               theme:
+ *                 type: string
+ *                 example: "dark"
+ *     responses:
+ *       200:
+ *         description: Preferências atualizadas com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: "Preferências atualizadas com sucesso!"
+ *       404:
+ *         description: Usuário não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 
