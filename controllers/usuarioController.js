@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const usuarioController = {
   create: async (req, res) => {
     try {
-      const { nome, apelido, nascimento, email, senha, nivel } = req.body;
+      const { nome, apelido, nascimento, email, senha } = req.body;
       const { foto, capa } = req.files;
 
       // configurando hash de senha
@@ -60,6 +60,9 @@ const usuarioController = {
         nivel: 1,
         foto: foto_src || null,
         capa: capa_src || null,
+        fontOption: "",
+        fontSize: 1,
+        theme: ""
       });
 
       // salvando o usuário
@@ -150,6 +153,28 @@ const usuarioController = {
     res.status(200).json({ msg: "Senha atualizada com sucesso!" });
 
   },
+   // atualizando preferencias de visualização do usuário passando o ID via PUT
+    updatePreferences: async (req, res) => {
+    const id = req.params.id
+
+    const { fontOption , fontSize, theme } = req.body;
+
+    const usuario = {
+      fontOption,
+      fontSize,
+      theme
+    };
+
+    const updatedPreferences = await Usuarios.findByIdAndUpdate(id, usuario)
+
+    if (!updatedPreferences) {
+      res.status(404).json({ msg: "Usuário não encontrado." });
+      return;
+    }
+
+    res.status(200).json({ msg: "Preferências atualizadas com sucesso!" });
+
+  },
   update: async (req, res) => {
     try {
       const id = req.params.id;
@@ -188,7 +213,7 @@ const usuarioController = {
         nascimento,
         email,
         foto: foto_src || undefined, // Atualiza somente se houve nova foto
-        capa: capa_src || undefined  // Atualiza somente se houve nova capa
+        capa: capa_src || undefined,  // Atualiza somente se houve nova capa
       };
 
       // Atualizando o usuário   

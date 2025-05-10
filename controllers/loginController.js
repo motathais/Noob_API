@@ -38,6 +38,9 @@ const loginController = {
                 token,
                 usuario: {
                     id: usuario._id,
+                    fontOption: usuario.fontOption,
+                    fontSize: usuario.fontSize,
+                    theme: usuario.theme
                 },
                 msg: "Usuário logado com sucesso!"
             });

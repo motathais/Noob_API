@@ -20,6 +20,8 @@ router.put("/usuarios/:id", checkToken, upload.fields([{ name: 'foto', maxCount:
 
 router.put("/usuarios/senha/:id", checkToken, (req, res) => usuarioController.updateSenha(req, res));
 
+router.put("/usuarios/preferencias/:id", checkToken, (req, res) => usuarioController.updatePreferences(req, res));
+
 module.exports = router;
 
 

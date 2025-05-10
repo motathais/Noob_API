@@ -31,6 +31,16 @@ const UsuarioSchema = new Schema({
     },
     capa: {
         type: String,
+    },
+    fontOption: {
+         type: String,
+    },
+    fontSize:
+    {
+        type: Number,
+    },
+    theme:{
+        type: String,
     }
 },
     { timestamps: true }
