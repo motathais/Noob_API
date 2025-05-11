@@ -60,9 +60,9 @@ const usuarioController = {
         nivel: 1,
         foto: foto_src || null,
         capa: capa_src || null,
-        fontOption: "",
+        fontOption: "arial",
         fontSize: 1,
-        theme: ""
+        theme: "light"
       });
 
       // salvando o usuário
