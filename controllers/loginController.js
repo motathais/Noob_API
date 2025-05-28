@@ -31,7 +31,7 @@ const loginController = {
             }
 
             // Gera um token JWT válido por  horas
-            const token = jwt.sign({ id: usuario._id }, secret, { expiresIn: '2h' });
+            const token = jwt.sign({ id: usuario._id }, secret, { expiresIn: '12h' });
 
             // Envia o token e as informações do usuário como resposta
             return res.status(200).json({
