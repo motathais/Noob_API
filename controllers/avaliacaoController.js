@@ -27,18 +27,18 @@ const avaliacaoController = {
     },
     getAll: async (req, res) => {
         try {
-            const avaliacoes = await AvaliacaoModel.find()
-
+            const avaliacoes = await AvaliacaoModel.find().select('-usuario');
             res.json(avaliacoes);
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            res.status(500).json({ msg: "Erro ao buscar avaliações." });
         }
     },
+
     get: async (req, res) => {
         try {
-            //id => URL == GET
-            const id = req.params.id
-            const avaliacao = await AvaliacaoModel.findById(id);
+            const id = req.params.id;
+            const avaliacao = await AvaliacaoModel.findById(id).select('-usuario');
 
             if (!avaliacao) {
                 res.status(404).json({ msg: "Avaliação não encontrada!" });
@@ -46,10 +46,11 @@ const avaliacaoController = {
             }
 
             res.json(avaliacao);
-
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            res.status(500).json({ msg: "Erro ao buscar avaliação." });
         }
+
     },
     delete: async (req, res) => {
         try {
