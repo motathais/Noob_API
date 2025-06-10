@@ -1028,122 +1028,6 @@ router.use("/", partidasRouter);
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 
-// DENUNCIAS:
-
-// Router:
-
-const denunciasRouter = require("./denuncias");
-
-router.use("/", denunciasRouter);
-
-// Swagger:
-
-/**
- * @swagger
- * /api/denuncias:
- *   post:
- *     summary: Registra uma nova denúncia
- *     description: Cria uma nova denúncia com base em um registro suspeito.
- *     tags:
- *       - Denúncias
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               idRegistro:
- *                 type: string
- *                 example: "6613e688f5a9b030f024c123"
- *               descricao:
- *                 type: string
- *                 example: "Informações falsas ou conteúdo inadequado."
- *     responses:
- *       201:
- *         description: Denúncia registrada com sucesso!
- *
- *   get:
- *     summary: Retorna todas as denúncias
- *     description: Lista todas as denúncias registradas no sistema.
- *     tags:
- *       - Denúncias
- *     responses:
- *       200:
- *         description: Lista de denúncias retornada com sucesso!
- *
- * /api/denuncias/{id}:
- *   get:
- *     summary: Retorna uma denúncia específica
- *     description: Busca os detalhes de uma denúncia com base no ID fornecido.
- *     tags:
- *       - Denúncias
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID da denúncia
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Denúncia encontrada com sucesso!
- *       404:
- *         description: Denúncia não encontrada.
- *
- *   delete:
- *     summary: Exclui uma denúncia
- *     description: Remove uma denúncia do sistema com base no ID fornecido.
- *     tags:
- *       - Denúncias
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID da denúncia
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Denúncia excluída com sucesso!
- *       404:
- *         description: Denúncia não encontrada.
- *
- *   put:
- *     summary: Atualiza uma denúncia existente
- *     description: Modifica os dados de uma denúncia com base no ID fornecido.
- *     tags:
- *       - Denúncias
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID da denúncia
- *         schema:
- *           type: string
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               idRegistro:
- *                 type: string
- *                 example: "6613e688f5a9b030f024c123"
- *               descricao:
- *                 type: string
- *                 example: "Atualização da denúncia anterior com mais detalhes."
- *     responses:
- *       200:
- *         description: Denúncia atualizada com sucesso!
- *       404:
- *         description: Denúncia não encontrada.
- */
-
-
-//--------------------------------------------------------------------------------------------------------------------------------------
-
 // AVALIACOES: 
 
 // Router:
@@ -1315,6 +1199,14 @@ router.use("/", avaliacoesRouter);
  *       500:
  *         description: Erro ao deletar avaliação
  */
+
+//--------------------------------------------------------------------------------------------------------------------------------------
+
+// FEEDBACKS: 
+
+const feedbacksRouter = require("./feedbacks");
+
+router.use("/", feedbacksRouter);
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 
