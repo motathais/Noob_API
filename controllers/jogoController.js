@@ -6,7 +6,7 @@ const jogoController = {
   create: async (req, res) => {
     try {
       // recebendo os parâmetros do body
-      const { titulo, ano, idade, designer, artista, editora, digital, categoria, componentes, descricao, idOriginal } = req.body;
+      const { nome, ano, idade, designer, artista, editora, digital, categoria, componentes, descricao, idOriginal } = req.body;
       const { foto, capa } = req.files; // Recebendo múltiplos arquivos
 
       // Upload da foto para o Cloudinary
@@ -35,7 +35,7 @@ const jogoController = {
 
       // Criando o jogo
       const jogos = new Jogo({
-        titulo,
+        nome,
         ano,
         idade,
         designer,
@@ -111,12 +111,12 @@ const jogoController = {
       const id = req.params.id;
 
       // recebendo os parâmetros do body
-      const { titulo, ano, idade, designer, artista, editora, digital, categoria, componentes, descricao } = req.body;
+      const { nome, ano, idade, designer, artista, editora, digital, categoria, componentes, descricao } = req.body;
       const { foto, capa } = req.files; // Recebendo múltiplos arquivos
 
       // Criando o objeto de atualização
       const jogo = {
-        titulo,
+        nome,
         ano,
         idade,
         designer,

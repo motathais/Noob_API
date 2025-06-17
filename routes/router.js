@@ -148,7 +148,7 @@ const router = require("express").Router()
  *     JogoRequest:
  *       type: object
  *       required:
- *         - titulo
+ *         - nome
  *         - ano
  *         - idade
  *         - designer
@@ -159,7 +159,7 @@ const router = require("express").Router()
  *         - componentes
  *         - descricao
  *       properties:
- *         titulo:
+ *         nome:
  *           type: string
  *           example: "Catan"
  *         ano:
@@ -204,7 +204,7 @@ const router = require("express").Router()
  *       properties:
  *         _id:
  *           type: string
- *         titulo:
+ *         nome:
  *           type: string
  *         ano:
  *           type: integer

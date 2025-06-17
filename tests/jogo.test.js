@@ -19,7 +19,7 @@ describe('jogoController', () => {
     it('deve criar um jogo com sucesso (sem imagem)', async () => {
       const req = {
         body: {
-          titulo: 'Catan',
+          nome: 'Catan',
           ano: 2000,
           idade: 10,
           designer: 'Klaus',
@@ -63,7 +63,7 @@ describe('jogoController', () => {
     it('deve retornar todos os jogos', async () => {
       const req = {};
       const res = mockResponse();
-      const jogos = [{ titulo: 'Catan' }];
+      const jogos = [{ nome: 'Catan' }];
 
       JogoModel.find.mockResolvedValue(jogos);
 
@@ -77,7 +77,7 @@ describe('jogoController', () => {
     it('deve retornar um jogo existente', async () => {
       const req = { params: { id: '1' } };
       const res = mockResponse();
-      const jogo = { titulo: 'Catan' };
+      const jogo = { nome: 'Catan' };
 
       JogoModel.findById.mockResolvedValue(jogo);
 
@@ -104,7 +104,7 @@ describe('jogoController', () => {
       const req = { params: { id: '1' } };
       const res = mockResponse();
 
-      const jogo = { titulo: 'Catan' };
+      const jogo = { nome: 'Catan' };
 
       JogoModel.findById.mockResolvedValue(jogo);
       JogoModel.findByIdAndDelete.mockResolvedValue(jogo);
@@ -134,7 +134,7 @@ describe('jogoController', () => {
       const req = {
         params: { id: '1' },
         body: {
-          titulo: 'Catan Atualizado',
+          nome: 'Catan Atualizado',
           ano: 2001,
           idade: 12,
           designer: 'Klaus',
@@ -149,7 +149,7 @@ describe('jogoController', () => {
       };
       const res = mockResponse();
 
-      const updatedJogo = { _id: '1', titulo: 'Catan Atualizado' };
+      const updatedJogo = { _id: '1', nome: 'Catan Atualizado' };
 
       JogoModel.findByIdAndUpdate.mockResolvedValue(updatedJogo);
 
