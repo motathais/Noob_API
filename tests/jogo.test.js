@@ -162,7 +162,7 @@ describe('jogoController', () => {
       });
     });
 
-    it('deve retornar 404 se não encontrar o jogo', async () => {
+    it('deve retornar 404 caso não encontre o jogo', async () => {
       const req = { params: { id: '1' }, body: {}, files: {} };
       const res = mockResponse();
 
