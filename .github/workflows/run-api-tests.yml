@@ -1,0 +1,31 @@
+name: Run API Tests
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    name: Testes com Jest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clonar repositório
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # ou a versão que sua API usa
+
+      - name: 📦 Instalar dependências
+        run: npm ci  # mais rápido e seguro que `npm install` em CI
+
+      - name: 🧪 Executar testes com Jest
+        run: npm test -- --coverage
+        env:
+          CI: true
