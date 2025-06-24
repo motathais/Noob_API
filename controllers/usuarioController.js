@@ -16,7 +16,9 @@ const usuarioController = {
 
       // validando se usuário e apelido já existem
       const usuarioExiste = await Usuarios.findOne({ email });
-      const apelidoExiste = await Usuarios.findOne({ apelido });
+      const apelidoExiste = await Usuarios.findOne({
+        apelido: { $regex: `^${apelido}$`, $options: 'i' }
+      });
 
       if (usuarioExiste) {
         return res.status(401).json({ message: "O email inserido está em uso, por gentileza utilize outro." });
@@ -153,11 +155,11 @@ const usuarioController = {
     res.status(200).json({ msg: "Senha atualizada com sucesso!" });
 
   },
-   // atualizando preferencias de visualização do usuário passando o ID via PUT
-    updatePreferences: async (req, res) => {
+  // atualizando preferencias de visualização do usuário passando o ID via PUT
+  updatePreferences: async (req, res) => {
     const id = req.params.id
 
-    const { fontOption , fontSize, theme } = req.body;
+    const { fontOption, fontSize, theme } = req.body;
 
     const usuario = {
       fontOption,
